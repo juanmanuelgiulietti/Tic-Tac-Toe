@@ -1,5 +1,10 @@
 import random
 
+def elegirQuienComienza(usuario):
+    jugadores = ["Computadora", usuario]
+    jugadorComienza = random.choice(jugadores)
+    return jugadorComienza
+
 def imprimirTablero():
     """
     La funcion crearTablero() crea una matriz con espacios vacios donde el usuario eligira donde insertar su X u O.
@@ -45,4 +50,7 @@ def main():
     print()
     simbolo_1, simbolo_2 = elegirSimbolo()
     print(f"{usuario} juega con {simbolo_1},\nComputadora juega con {simbolo_2}")
+    print()
+    jugadorComienza = elegirQuienComienza(usuario)
+    print(f"Jugador que comienza el juego: {jugadorComienza}")
 main()
