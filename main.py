@@ -1,6 +1,21 @@
 import random
 
+
+
+def indicarTurnos(jugadorComienza, simbolo_1, simbolo_2):
+    """
+    La funcion indicarTurnos(jugadorComienza, simbolo_1, simbolo_2) define de quien es cada marca, y define cuando sera el turno de cada jugador.
+    """
+    if jugadorComienza == "Computadora":
+        turno = simbolo_2
+    else:
+        turno = simbolo_1
+    return turno
+        
 def elegirQuienComienza(usuario):
+    """
+    La funcion elegirQuienComienza(usuario) elige aleatoreamente mediante un random choice, que jugador comienza la partida.
+    """
     jugadores = ["Computadora", usuario]
     jugadorComienza = random.choice(jugadores)
     return jugadorComienza
@@ -53,4 +68,7 @@ def main():
     print()
     jugadorComienza = elegirQuienComienza(usuario)
     print(f"Jugador que comienza el juego: {jugadorComienza}")
+    print()
+    turno = indicarTurnos(jugadorComienza, simbolo_1, simbolo_2)
+    print(f"Empieza a jugar: {turno}")
 main()
