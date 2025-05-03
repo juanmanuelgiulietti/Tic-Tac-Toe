@@ -1,5 +1,20 @@
 import random
 
+def comenzarJuego(jugadorComienza):
+    if jugadorComienza == "Computadora":
+        fila = random.randint(1, 3)
+        columna = random.randint(1, 3)
+    else:
+        fila = int(input("Ingrese la fila en la que desea colocar su marca (1 a 3): "))
+        while fila < 1 or fila > 3:
+            print("Por favor ingrese una respuesta valida.")
+            fila = int(input("Ingrese la fila en la que desea colocar su marca (1 a 3): "))
+        columna = int(input("Ingrese la columna en la que desea colocar su marca (1 a 3): "))
+        while columna < 1 or columna > 3:
+            print("Por favor ingrese una respuesta valida.")
+            columna = int(input("Ingrese la columna en la que desea colocar su marca (1 a 3): "))
+    return fila, columna
+
 def indicarTurnos(jugadorComienza, simbolo_1, simbolo_2):
     """
     La funcion indicarTurnos(jugadorComienza, simbolo_1, simbolo_2) define de quien es cada marca, y define cuando sera el turno de cada jugador.
@@ -71,4 +86,8 @@ def main():
     print()
     turno = indicarTurnos(jugadorComienza, simbolo_1, simbolo_2)
     print(f"Empieza a jugar: {turno}")
+    print()
+    fila, columna = comenzarJuego(jugadorComienza)
+    print()
+    print(f"Fila elegida: {fila}\nColumna elegida: {columna}")
 main()
