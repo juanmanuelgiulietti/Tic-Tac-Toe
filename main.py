@@ -1,6 +1,9 @@
 import random
 
 def comenzarJuego(jugadorComienza):
+    """
+    La funcion comenzarJuego(jugadorComienza) evalua a quien le toca iniciar, si es el usuario le pide que ingrese la posicion donde quiere guardar su marca, y si es la computadora lo genera aleatoreamente.
+    """
     if jugadorComienza == "Computadora":
         fila = random.randint(1, 3)
         columna = random.randint(1, 3)
