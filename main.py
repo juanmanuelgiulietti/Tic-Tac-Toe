@@ -1,21 +1,35 @@
 import random
 
+def posicionarMarca(tablero, fila, columna, turno, jugadorComienza):
+    """
+    La funcion posicionarMarca(tablero,fila,columna, turno) posiciona la marca correspondiente al turno en la posicion elegida por el usuario, y valida si esta está repetida o no. Por el lado de la computadora lo posiciona al azar. Una vez hecho esto cambia el turno.
+    """
+    if tablero[fila][columna] == " ":
+        tablero[fila][columna] = turno
+        if turno == "X":
+            turno = "O"
+        else:
+            turno = "X"       
+    else:
+        print("Este espacio ya esta ocupado.")    
+    return tablero, turno
+
 def comenzarJuego(jugadorComienza):
     """
     La funcion comenzarJuego(jugadorComienza) evalua a quien le toca iniciar, si es el usuario le pide que ingrese la posicion donde quiere guardar su marca, y si es la computadora lo genera aleatoreamente.
     """
     if jugadorComienza == "Computadora":
-        fila = random.randint(1, 3)
-        columna = random.randint(1, 3)
+        fila = random.randint(0, 2)
+        columna = random.randint(0, 2)
     else:
-        fila = int(input("Ingrese la fila en la que desea colocar su marca (1 a 3): "))
-        while fila < 1 or fila > 3:
+        fila = int(input("Ingrese la fila en la que desea colocar su marca (0 a 2): "))
+        while fila < 0 or fila > 2:
             print("Por favor ingrese una respuesta valida.")
-            fila = int(input("Ingrese la fila en la que desea colocar su marca (1 a 3): "))
-        columna = int(input("Ingrese la columna en la que desea colocar su marca (1 a 3): "))
-        while columna < 1 or columna > 3:
+            fila = int(input("Ingrese la fila en la que desea colocar su marca (0 a 2): "))
+        columna = int(input("Ingrese la columna en la que desea colocar su marca (0 a 2): "))
+        while columna < 0 or columna > 2:
             print("Por favor ingrese una respuesta valida.")
-            columna = int(input("Ingrese la columna en la que desea colocar su marca (1 a 3): "))
+            columna = int(input("Ingrese la columna en la que desea colocar su marca (0 a 2): "))
     return fila, columna
 
 def indicarTurnos(jugadorComienza, simbolo_1, simbolo_2):
@@ -93,4 +107,9 @@ def main():
     fila, columna = comenzarJuego(jugadorComienza)
     print()
     print(f"Fila elegida: {fila}\nColumna elegida: {columna}")
+    print()
+    tableroActualizado, nuevoTurno = posicionarMarca(tablero, fila, columna, turno, jugadorComienza)
+    print(f"Tablero actualizado:\n{tableroActualizado}")
+    print()
+    print(f"Proximo turno: {nuevoTurno}")
 main()
