@@ -15,7 +15,7 @@ def cambioDeTurno(nuevoTurno, simbolo_1):
             columna = int(input("Ingrese la columna en la que desea colocar su marca (0 a 2): "))
     else:
         fila = random.randint(0, 2)
-        columna = random.randint(0, 2)
+        columna = random.randint(0, 2)   
     return fila, columna
 
 def posicionarMarca(tablero, fila, columna, turno):
@@ -23,13 +23,13 @@ def posicionarMarca(tablero, fila, columna, turno):
     La funcion posicionarMarca(tablero,fila,columna, turno) posiciona la marca correspondiente al turno en la posicion elegida por el usuario, y valida si esta está repetida o no. Por el lado de la computadora lo posiciona al azar. Una vez hecho esto cambia el turno.
     """
     if tablero[fila][columna] == " ":
-        tablero[fila][columna] = turno
-        if turno == "X":
-            turno = "O"
-        else:
-            turno = "X"     
+        tablero[fila][columna] = turno  
     else:
-        print("Este espacio ya esta ocupado.") 
+        print("Este espacio ya esta ocupado.")
+    if turno == "X":
+        turno = "O"
+    else:
+        turno = "X"    
     return tablero, turno
 
 def comenzarJuego(jugadorComienza):
@@ -103,6 +103,7 @@ def darBienvenidaAlUsuario():
         print("Por favor ingrese una respuesta valida: ")
         usuario = str(input("Ingrese su nombre para empezar a jugar: ")).capitalize()
     return usuario
+
 def main():
     """
     La funcion main() realiza la llamada a todas las funciones del programa para completar su funcionamiento.
@@ -122,17 +123,31 @@ def main():
     turno = indicarTurnos(jugadorComienza, simbolo_1, simbolo_2)
     print(f"Empieza a jugar: {turno}")
     print()
+
     fila, columna = comenzarJuego(jugadorComienza)
     print()
     print(f"Fila elegida: {fila}\nColumna elegida: {columna}")
     print()
-    tableroActualizado, nuevoTurno = posicionarMarca(tablero, fila, columna, turno)
-    print(f"Tablero actualizado:\n{tableroActualizado}")
+
+    tablero, nuevoTurno = posicionarMarca(tablero, fila, columna, turno)
+    print("Tablero actualizado:")
+    for fila_mostrar in tablero:
+        print(fila_mostrar)
+
+    cantidadRondas = 1
     print()
     print(f"Proximo turno: {nuevoTurno}")
+    print(f"Cantidad de rondas jugadas: {cantidadRondas}")
     print()
-    nuevaFila, nuevaColumna = cambioDeTurno(nuevoTurno, simbolo_1)
-    print()
-    print(f"Fila elegida: {nuevaFila}")
-    print(f"Columna elegida: {nuevaColumna}")
+
+    while cantidadRondas < 9:
+        fila, columna = cambioDeTurno(nuevoTurno, simbolo_1)
+        tablero, nuevoTurno = posicionarMarca(tablero, fila, columna, nuevoTurno)
+        
+        print("Tablero actualizado:")
+        for fila_mostrar in tablero:
+            print(fila_mostrar)
+
+        cantidadRondas += 1
+        print(f"Se han jugado {cantidadRondas} ronda/s.")
 main()
