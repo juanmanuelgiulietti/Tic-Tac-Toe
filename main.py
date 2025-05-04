@@ -1,5 +1,85 @@
 import random
 
+def verificarGanador(tablero):
+    """
+    La funcion verificarGanador(tablero) verifica si hay 3 espacios en linea con la misma marca, de manera horizontal, vertical como tambien en diagonal.
+    """
+    for fila in tablero:
+        if fila[0] == fila[1] == fila[2] != " ":
+            return fila[0]
+    for i in range(3):
+        if tablero[0][i] == tablero[1][i] == tablero[2][i] != " ":
+            return tablero[0][i]
+    for diagonal in tablero:
+        if tablero[0][0] == tablero[1][1] == tablero[2][2] != " ":
+            return tablero[0][0]
+        if tablero[0][2] == tablero[1][1] == tablero[2][0] != " ":
+            return tablero[0][2]
+    return None
+
+def cambioDeTurno(nuevoTurno, simbolo_1):
+    """
+    La funcion cambioDeTurno(nuevoTurno, simbolo_1) cambia el turno y pide un nuevo ingreso.
+    """
+    if nuevoTurno == simbolo_1:
+        fila = int(input("Ingrese la fila en la que desea colocar su marca (0 a 2): "))
+        while fila < 0 or fila > 2:
+            print("Por favor ingrese una respuesta valida.")
+            fila = int(input("Ingrese la fila en la que desea colocar su marca (0 a 2): "))
+        columna = int(input("Ingrese la columna en la que desea colocar su marca (0 a 2): "))
+        while columna < 0 or columna > 2:
+            print("Por favor ingrese una respuesta valida.")
+            columna = int(input("Ingrese la columna en la que desea colocar su marca (0 a 2): "))
+    else:
+        fila = random.randint(0, 2)
+        columna = random.randint(0, 2)   
+    return fila, columna
+
+def posicionarMarca(tablero, fila, columna, turno, simbolo_1):
+    """
+    La funcion posicionarMarca(tablero,fila,columna, turno) posiciona la marca correspondiente al turno en la posicion elegida por el usuario, y valida si esta está repetida o no. Por el lado de la computadora lo posiciona al azar. Una vez hecho esto cambia el turno.
+    """
+    while tablero[fila][columna] != " ":
+        print("Este espacio ya está ocupado.")
+        if turno == simbolo_1:
+            fila = int(input("Ingrese la fila en la que desea colocar su marca (0 a 2): "))
+            while fila < 0 or fila > 2:
+                print("Por favor ingrese una respuesta válida.")
+                fila = int(input("Ingrese la fila en la que desea colocar su marca (0 a 2): "))
+            columna = int(input("Ingrese la columna en la que desea colocar su marca (0 a 2): "))
+            while columna < 0 or columna > 2:
+                print("Por favor ingrese una respuesta válida.")
+                columna = int(input("Ingrese la columna en la que desea colocar su marca (0 a 2): "))
+        else:
+            fila = random.randint(0, 2)
+            columna = random.randint(0, 2)
+             
+    tablero[fila][columna] = turno
+
+    if turno == "X":
+        turno = "O"
+    else:
+        turno = "X"
+    return tablero, turno
+
+def comenzarJuego(jugadorComienza):
+    """
+    La funcion comenzarJuego(jugadorComienza) evalua a quien le toca iniciar, si es el usuario le pide que ingrese la posicion donde quiere guardar su marca, y si es la computadora lo genera aleatoreamente.
+    """
+    if jugadorComienza == "Computadora":
+        fila = random.randint(0, 2)
+        columna = random.randint(0, 2)
+    else:
+        fila = int(input("Ingrese la fila en la que desea colocar su marca (0 a 2): "))
+        while fila < 0 or fila > 2:
+            print("Por favor ingrese una respuesta valida.")
+            fila = int(input("Ingrese la fila en la que desea colocar su marca (0 a 2): "))
+        columna = int(input("Ingrese la columna en la que desea colocar su marca (0 a 2): "))
+        while columna < 0 or columna > 2:
+            print("Por favor ingrese una respuesta valida.")
+            columna = int(input("Ingrese la columna en la que desea colocar su marca (0 a 2): "))
+    return fila, columna
+
 def indicarTurnos(jugadorComienza, simbolo_1, simbolo_2):
     """
     La funcion indicarTurnos(jugadorComienza, simbolo_1, simbolo_2) define de quien es cada marca, y define cuando sera el turno de cada jugador.
@@ -25,8 +105,9 @@ def crearEImprimirTablero():
     tablero = [[" ", " ", " "],
                [" ", " ", " "],
                [" ", " ", " "],]
-    for fila in tablero:
-        print(f"{fila}")
+    for fila_mostrar in tablero:
+        fila_con_emojis = [celda.replace("X", "❌").replace("O", "🔵") for celda in fila_mostrar]
+        print(" | ".join(fila_con_emojis))
     return tablero
 
 def elegirSimbolo():
@@ -53,13 +134,15 @@ def darBienvenidaAlUsuario():
         print("Por favor ingrese una respuesta valida: ")
         usuario = str(input("Ingrese su nombre para empezar a jugar: ")).capitalize()
     return usuario
+
 def main():
     """
     La funcion main() realiza la llamada a todas las funciones del programa para completar su funcionamiento.
     """
     usuario = darBienvenidaAlUsuario()
     print()
-    print(f"¡Hola! 👋 {usuario} . Bienvenido al juego de Tic - Tac - Toe. Buena suerte 🍀")
+    print("🧠 Bienvenido a TIC - TAC - TOE 🧠\n")
+    print(f"¡Hola! 👋 {usuario}. Buena suerte 🍀")
     print()
     tablero = crearEImprimirTablero()
     print()
@@ -71,4 +154,50 @@ def main():
     print()
     turno = indicarTurnos(jugadorComienza, simbolo_1, simbolo_2)
     print(f"Empieza a jugar: {turno}")
+    print()
+
+    fila, columna = comenzarJuego(jugadorComienza)
+    print()
+    print(f"Fila elegida: {fila}\nColumna elegida: {columna}")
+    print()
+
+    tablero, turno = posicionarMarca(tablero, fila, columna, turno, simbolo_1)
+    print("Tablero actualizado:")
+    for fila_mostrar in tablero:
+        fila_con_emojis = [celda.replace("X", "❌").replace("O", "🔵") for celda in fila_mostrar]
+        print(" | ".join(fila_con_emojis))
+
+
+    cantidadRondas = 1
+    print()
+    print(f"Proximo turno: {turno}")
+    print(f"Cantidad de rondas jugadas: {cantidadRondas}")
+    print()
+    
+    ganador = verificarGanador(tablero)
+    if ganador:
+        print(f"🎉 ¡Felicitaciones! El jugador con la marca {ganador} ha ganado la partida. 🏆")
+
+    while (cantidadRondas < 9) and ganador is None:
+        fila, columna = cambioDeTurno(turno, simbolo_1)
+        tablero, turno = posicionarMarca(tablero, fila, columna, turno, simbolo_1)
+        ganador = verificarGanador(tablero)
+        
+        print()  
+        print("Tablero actualizado:")
+        
+        for fila_mostrar in tablero:
+            fila_con_emojis = [celda.replace("X", "❌").replace("O", "🔵") for celda in fila_mostrar]
+            print(" | ".join(fila_con_emojis))
+        
+        print()
+        if ganador:
+            print(f"🎉 ¡Felicitaciones! El jugador con la marca {ganador} ha ganado la partida. 🏆")
+            break
+            
+        cantidadRondas += 1
+        print(f"Se han jugado {cantidadRondas} ronda/s.")
+        
+    if not ganador:
+        print("🤝 ¡Empate! No hubo ganador esta vez.")
 main()
