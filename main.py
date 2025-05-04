@@ -106,7 +106,8 @@ def crearEImprimirTablero():
                [" ", " ", " "],
                [" ", " ", " "],]
     for fila_mostrar in tablero:
-        print(" | ".join(fila_mostrar))
+        fila_con_emojis = [celda.replace("X", "❌").replace("O", "🔵") for celda in fila_mostrar]
+        print(" | ".join(fila_con_emojis))
     return tablero
 
 def elegirSimbolo():
@@ -140,7 +141,8 @@ def main():
     """
     usuario = darBienvenidaAlUsuario()
     print()
-    print(f"¡Hola! 👋 {usuario} . Bienvenido al juego de Tic - Tac - Toe. Buena suerte 🍀")
+    print("🧠 Bienvenido a TIC - TAC - TOE 🧠\n")
+    print(f"¡Hola! 👋 {usuario}. Buena suerte 🍀")
     print()
     tablero = crearEImprimirTablero()
     print()
@@ -162,7 +164,9 @@ def main():
     tablero, turno = posicionarMarca(tablero, fila, columna, turno, simbolo_1)
     print("Tablero actualizado:")
     for fila_mostrar in tablero:
-        print(" | ".join(fila_mostrar))
+        fila_con_emojis = [celda.replace("X", "❌").replace("O", "🔵") for celda in fila_mostrar]
+        print(" | ".join(fila_con_emojis))
+
 
     cantidadRondas = 1
     print()
@@ -172,22 +176,28 @@ def main():
     
     ganador = verificarGanador(tablero)
     if ganador:
-        print(f"Ganador: {ganador}")
+        print(f"🎉 ¡Felicitaciones! El jugador con la marca {ganador} ha ganado la partida. 🏆")
 
     while (cantidadRondas < 9) and ganador is None:
         fila, columna = cambioDeTurno(turno, simbolo_1)
         tablero, turno = posicionarMarca(tablero, fila, columna, turno, simbolo_1)
         ganador = verificarGanador(tablero)
-        if ganador:
-            print(f"Ganador: {ganador}")
-            break
         
         print()  
         print("Tablero actualizado:")
         
         for fila_mostrar in tablero:
-            print(" | ".join(fila_mostrar))
+            fila_con_emojis = [celda.replace("X", "❌").replace("O", "🔵") for celda in fila_mostrar]
+            print(" | ".join(fila_con_emojis))
+        
+        print()
+        if ganador:
+            print(f"🎉 ¡Felicitaciones! El jugador con la marca {ganador} ha ganado la partida. 🏆")
+            break
             
         cantidadRondas += 1
         print(f"Se han jugado {cantidadRondas} ronda/s.")
+        
+    if not ganador:
+        print("🤝 ¡Empate! No hubo ganador esta vez.")
 main()
