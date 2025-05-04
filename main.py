@@ -40,7 +40,7 @@ def posicionarMarca(tablero, fila, columna, turno, simbolo_1):
     La funcion posicionarMarca(tablero,fila,columna, turno) posiciona la marca correspondiente al turno en la posicion elegida por el usuario, y valida si esta está repetida o no. Por el lado de la computadora lo posiciona al azar. Una vez hecho esto cambia el turno.
     """
     while tablero[fila][columna] != " ":
-        print("Este espacio ya está ocupado.")
+        print("Ops, ese lugar ya está ocupado 😅")
         if turno == simbolo_1:
             fila = int(input("Ingrese la fila en la que desea colocar su marca (0 a 2): "))
             while fila < 0 or fila > 2:
@@ -55,6 +55,7 @@ def posicionarMarca(tablero, fila, columna, turno, simbolo_1):
             columna = random.randint(0, 2)
              
     tablero[fila][columna] = turno
+    print("¡Buena jugada! 🧠")
 
     if turno == "X":
         turno = "O"
@@ -153,7 +154,7 @@ def main():
     print(f"Jugador que comienza el juego: {jugadorComienza}")
     print()
     turno = indicarTurnos(jugadorComienza, simbolo_1, simbolo_2)
-    print(f"Empieza a jugar: {turno}")
+    print(f"➡️ Empieza a jugar: {turno}")
     print()
 
     fila, columna = comenzarJuego(jugadorComienza)
@@ -170,7 +171,7 @@ def main():
 
     cantidadRondas = 1
     print()
-    print(f"Proximo turno: {turno}")
+    print(f"➡️ Turno de: {turno}")
     print(f"Cantidad de rondas jugadas: {cantidadRondas}")
     print()
     
