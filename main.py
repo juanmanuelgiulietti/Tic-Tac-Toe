@@ -1,5 +1,22 @@
 import random
 
+def verificarGanador(tablero):
+    """
+    La funcion verificarGanador(tablero) verifica si hay 3 espacios en linea con la misma marca, de manera horizontal, vertical como tambien en diagonal.
+    """
+    for fila in tablero:
+        if fila[0] == fila[1] == fila[2] != " ":
+            return fila[0]
+    for i in range(3):
+        if tablero[0][i] == tablero[1][i] == tablero[2][i] != " ":
+            return tablero[0][i]
+    for diagonal in tablero:
+        if tablero[0][0] == tablero[1][1] == tablero[2][2] != " ":
+            return tablero[0][0]
+        if tablero[0][2] == tablero[1][1] == tablero[2][0] != " ":
+            return tablero[0][2]
+    return None
+
 def cambioDeTurno(nuevoTurno, simbolo_1):
     """
     La funcion cambioDeTurno(nuevoTurno, simbolo_1) cambia el turno y pide un nuevo ingreso.
@@ -36,7 +53,7 @@ def posicionarMarca(tablero, fila, columna, turno, simbolo_1):
         else:
             fila = random.randint(0, 2)
             columna = random.randint(0, 2)
-            
+             
     tablero[fila][columna] = turno
 
     if turno == "X":
@@ -88,8 +105,8 @@ def crearEImprimirTablero():
     tablero = [[" ", " ", " "],
                [" ", " ", " "],
                [" ", " ", " "],]
-    for fila in tablero:
-        print(f"{fila}")
+    for fila_mostrar in tablero:
+        print(" | ".join(fila_mostrar))
     return tablero
 
 def elegirSimbolo():
@@ -145,22 +162,32 @@ def main():
     tablero, turno = posicionarMarca(tablero, fila, columna, turno, simbolo_1)
     print("Tablero actualizado:")
     for fila_mostrar in tablero:
-        print(fila_mostrar)
+        print(" | ".join(fila_mostrar))
 
     cantidadRondas = 1
     print()
     print(f"Proximo turno: {turno}")
     print(f"Cantidad de rondas jugadas: {cantidadRondas}")
     print()
+    
+    ganador = verificarGanador(tablero)
+    if ganador:
+        print(f"Ganador: {ganador}")
 
-    while cantidadRondas < 9:
+    while (cantidadRondas < 9) and ganador is None:
         fila, columna = cambioDeTurno(turno, simbolo_1)
         tablero, turno = posicionarMarca(tablero, fila, columna, turno, simbolo_1)
+        ganador = verificarGanador(tablero)
+        if ganador:
+            print(f"Ganador: {ganador}")
+            break
         
+        print()  
         print("Tablero actualizado:")
+        
         for fila_mostrar in tablero:
-            print(fila_mostrar)
-
+            print(" | ".join(fila_mostrar))
+            
         cantidadRondas += 1
         print(f"Se han jugado {cantidadRondas} ronda/s.")
 main()
